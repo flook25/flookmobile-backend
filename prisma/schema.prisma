@@ -15,33 +15,43 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  username  String   @unique
-  password  String
-  name      String
-  level     String   @default("user")
-  status    String   @default("active")
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  username String @unique
+  password String
+  name     String
+  level    String @default("user")
+  status   String @default("active")
 }
 
 model Company {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  name      String   @unique
-  address   String
-  phone     String
-  email     String?
-  taxCode   String
+  id      String  @id @default(auto()) @map("_id") @db.ObjectId
+  name    String  @unique
+  address String
+  phone   String
+  email   String?
+  taxCode String
 }
 
 model Product {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  serial    String?
-  release   String
-  name      String
-  color     String
-  price     Int
-  customerName String
-  customerPhone String?
+  id              String  @id @default(auto()) @map("_id") @db.ObjectId
+  serial          String?
+  release         String
+  name            String
+  color           String
+  price           Int
+  customerName    String
+  customerPhone   String?
   customerAddress String?
-  remarks   String?
-  status    String   @default("instock")
+  remarks         String?
+  status          String  @default("instock")
+  sell            Sell[]
+}
+
+model Sell {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  productId String   @db.ObjectId
+  product   Product? @relation(fields: [productId], references: [id])
+  status    String   @default("pending")
+  price     Int
+  payDate   DateTime
 }

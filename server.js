@@ -9,7 +9,7 @@ import cors from "cors";
 import { UserController } from "./controllers/UserController.js";
 import { CompanyController } from "./controllers/CompanyController.js";
 import { ProductController } from "./controllers/ProductController.js";
-
+import { SellController } from "./controllers/SellController.js";
 
 // Middleware
 app.use(cors());
@@ -19,6 +19,9 @@ app.use(express.urlencoded({ extended: true }));
 app.get("/", (req, res) => {
     res.send("Hello, World!");
 });
+
+// Sell
+app.post("/api/sell/create", SellController.create);
 
 // buy
 app.post("/api/buy/create", ProductController.create);
