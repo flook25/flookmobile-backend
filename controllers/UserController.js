@@ -2,6 +2,7 @@ import pkg from "../generated/prisma/index.js";
 const { PrismaClient } = pkg;
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import { info } from "console";
 
 dotenv.config();
 
@@ -35,4 +36,21 @@ export const UserController = {
       res.status(500).json({ message: error.message });
     }
   },
+  info: async (req, res) => {
+    try {
+      const headers = req.headers.authorization;
+      const token = headers && headers.split(" ")[1];
+      const decoded = jwt.verify(token, process.env.SECRET_KEY);
+      const user = await prisma.user.findFirst({
+        where: {id: decoded.id},
+        select: {
+          name: true,
+          level: true,
+        }
+      });
+      res.json(user);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
 };

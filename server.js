@@ -29,6 +29,7 @@ app.delete("/api/buy/remove/:id", ProductController.remove);
 
 // user
 app.post("/api/user/signin", UserController.signIn);
+app.get("/api/user/info", UserController.info);
 
 
 // company
@@ -40,6 +41,6 @@ app.use((error, req, res, next) => {
     res.status(500).json({ message: error.message });
 });
 
-app.listen(port, () => {
+app.listen(port, () => {    
     console.log(`Server is running on http://localhost:${port}`);
 });
