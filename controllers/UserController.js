@@ -26,7 +26,7 @@ export const UserController = {
 
     }
     const token = jwt.sign({id: user.id}, process.env.SECRET_KEY, {
-      expiresIn: "1m",
+      expiresIn: "1year",
     });
 
     res.status(200).json({ token });
@@ -46,10 +46,36 @@ export const UserController = {
         select: {
           name: true,
           level: true,
+          username: true,
         }
       });
       res.json(user);
     } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  },
+  update:async (req, res) => {
+    try {
+      const headers = req.headers.authorization;
+      const token = headers && headers.split(" ")[1];
+      const decoded = jwt.verify(token, process.env.SECRET_KEY);
+      const olderUser = await prisma.user.findFirst({
+        where: { id: decoded.id },
+      });
+      const newPassword = req.body.password !== undefined ? req.body.password : olderUser.password;
+      await prisma.user.update({
+        where: { id: decoded.id },
+        data: {
+          name: req.body.name,
+          username: req.body.username,
+          password: newPassword
+        }
+         
+      })
+      res.status(200).json({ message: "User updated successfully" });
+      
+    } catch (error) {
+      console.error('Update User error:', error);
       res.status(500).json({ message: error.message });
     }
   }

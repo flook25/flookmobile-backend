@@ -30,6 +30,7 @@ app.delete("/api/buy/remove/:id", ProductController.remove);
 // user
 app.post("/api/user/signin", UserController.signIn);
 app.get("/api/user/info", UserController.info);
+app.put("/api/user/update", UserController.update);
 
 
 // company
