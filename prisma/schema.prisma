@@ -54,4 +54,8 @@ model Sell {
   status    String   @default("pending")
   price     Int
   payDate   DateTime
+
+  // --- ADD THESE TWO LINES ---
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
 }

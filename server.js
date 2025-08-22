@@ -22,6 +22,12 @@ app.get("/", (req, res) => {
 
 // Sell
 app.post("/api/sell/create", SellController.create);
+app.get("/api/sell/list", SellController.list);
+app.delete("/api/sell/remove/:id", SellController.remove);
+app.get("/api/sell/confirm", SellController.confirm);
+app.get("/api/sell/dashboard/:year", SellController.dashboard);
+app.get("/api/sell/history", SellController.history);
+app.get("/api/sell/info/:id", SellController.info);
 
 // buy
 app.post("/api/buy/create", ProductController.create);
